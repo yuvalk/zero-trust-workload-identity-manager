@@ -1,16 +1,28 @@
 # zero-trust-workload-identity-manager
-// TODO(user): Add simple overview of use/purpose
+The Zero Trust Workload Identity Manager is a Openshift Day-2 Operator designed to automate the setup and management of SPIFFE/SPIRE components (like `spire-server`, `spire-agent`, `spiffe-csi-driver`, and `oidc-discovery-provider`) within OpenShift clusters. It enables zero-trust security by dynamically issuing and rotating workload identities, enforcing strict identity-based authentication across workloads. This manager abstracts complex SPIRE configurations, streamlining workload onboarding with secure identities and improving the cluster's overall security posture.
 
 ## Description
-// TODO(user): An in-depth paragraph about your project and overview of use
+Zero Trust security is rapidly becoming essential in cloud-native environments, where workloads are often ephemeral, multi-tenant, and dynamically scheduled. Traditional IP or network-based security mechanisms fall short in such setups.
+
+This project introduces an operator that integrates SPIFFE and SPIRE with openshift to provide secure, verifiable identities to workloads. By leveraging SPIRE's identity issuing and attestation mechanisms, the operator:
+
+- Automates deployment and lifecycle management of SPIRE components.
+
+- Manages workload registration entries and identity policies.
+
+- Enables integration with external services via SPIFFE JWT-SVIDs or X.509-SVIDs.
+
+- Supports dynamic certificate issuance and rotation using the CSI driver.
+
+The zero-trust-workload-identity-manager simplifies onboarding applications with zero-trust identities using Kubernetes CRDs and manages their security lifecycle through custom controllers.
 
 ## Getting Started
 
 ### Prerequisites
-- go version v1.22.0+
+- go version v1.23.0+
 - docker version 17.03+.
 - kubectl version v1.11.3+.
-- Access to a Kubernetes v1.11.3+ cluster.
+- Access to a Openshift v4.19+ cluster.
 
 ### To Deploy on the cluster
 **Build and push your image to the location specified by `IMG`:**
@@ -90,25 +102,16 @@ kubectl apply -f https://raw.githubusercontent.com/<org>/zero-trust-workload-ide
 ```
 
 ## Contributing
-// TODO(user): Add detailed information on how you would like others to contribute to this project
+We welcome contributions from the community! To contribute:
 
-**NOTE:** Run `make help` for more information on all potential `make` targets
+- Fork this repository and create a new branch.
 
-More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html)
+- Make your changes and test them thoroughly.
 
-## License
+- Run make targets to verify the behavior.
 
-Copyright 2025.
+- Submit a Pull Request describing your changes and the motivation behind them.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+- Run make help to view all available development targets.
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
+We appreciate issues, bug reports, feature requests, and feedback!
