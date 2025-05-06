@@ -40,11 +40,6 @@ spec:
           spec:
             description: ZeroTrustWorkloadIdentityManagerSpec defines the desired
               state of ZeroTrustWorkloadIdentityManager
-            properties:
-              foo:
-                description: Foo is an example field of ZeroTrustWorkloadIdentityManager.
-                  Edit zerotrustworkloadidentitymanager_types.go to remove/update
-                type: string
             type: object
           status:
             description: ZeroTrustWorkloadIdentityManagerStatus defines the observed
