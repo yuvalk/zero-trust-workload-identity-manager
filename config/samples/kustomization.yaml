@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- operator.openshift.io_v1alpha1_zerotrustworkloadidentitymanager.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples
