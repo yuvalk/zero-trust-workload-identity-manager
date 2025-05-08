@@ -43,11 +43,13 @@ func init() {
 var _ = Describe("ZeroTrustWorkloadIdentityManager Controller", func() {
 	Context("When reconciling a resource", func() {
 		const resourceName = "cluster"
+		const resourceNamespace = "zero-trust-workload-identity-manager"
 
 		ctx := context.Background()
 
 		typeNamespacedName := types.NamespacedName{
-			Name: resourceName,
+			Name:      resourceName,
+			Namespace: resourceNamespace,
 		}
 		zerotrustworkloadidentitymanager := &operatoropenshiftiov1alpha1.ZeroTrustWorkloadIdentityManager{}
 
@@ -57,7 +59,8 @@ var _ = Describe("ZeroTrustWorkloadIdentityManager Controller", func() {
 			if err != nil && errors.IsNotFound(err) {
 				resource := &operatoropenshiftiov1alpha1.ZeroTrustWorkloadIdentityManager{
 					ObjectMeta: metav1.ObjectMeta{
-						Name: resourceName,
+						Name:      resourceName,
+						Namespace: resourceNamespace,
 					},
 					// TODO(user): Specify other spec details if needed.
 				}

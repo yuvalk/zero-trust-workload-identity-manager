@@ -20,7 +20,7 @@ metadata:
         }
       ]
     capabilities: Basic Install
-    createdAt: "2025-05-08T10:54:04Z"
+    createdAt: "2025-05-08T14:53:06Z"
     operators.operatorframework.io/builder: operator-sdk-v1.39.0
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
   name: zero-trust-workload-identity-manager.v0.1.0
@@ -74,18 +74,6 @@ spec:
           - get
           - patch
           - update
-        - apiGroups:
-          - authentication.k8s.io
-          resources:
-          - tokenreviews
-          verbs:
-          - create
-        - apiGroups:
-          - authorization.k8s.io
-          resources:
-          - subjectaccessreviews
-          verbs:
-          - create
         serviceAccountName: zero-trust-workload-identity-manager-controller-manager
       deployments:
       - label:
@@ -108,7 +96,6 @@ spec:
             spec:
               containers:
               - args:
-                - --metrics-bind-address=:8443
                 - --health-probe-bind-address=:8081
                 command:
                 - /zero-trust-workload-identity-manager
