@@ -4,6 +4,8 @@ metadata:
   labels:
     control-plane: controller-manager
     app.kubernetes.io/name: zero-trust-workload-identity-manager
+    app.kubernetes.io/created-by: zero-trust-workload-identity-manager
+    app.kubernetes.io/part-of: zero-trust-workload-identity-manager
     app.kubernetes.io/managed-by: kustomize
   name: system
 ---
@@ -59,9 +61,8 @@ spec:
         #   type: RuntimeDefault
       containers:
       - command:
-        - /manager
+        - /zero-trust-workload-identity-manager
         args:
-          - --leader-elect
           - --health-probe-bind-address=:8081
         image: controller:latest
         name: manager

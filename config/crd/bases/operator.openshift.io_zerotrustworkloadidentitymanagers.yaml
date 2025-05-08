@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.1
-  name: zerotrustworkloadidentitymanagers.operator.openshift.io.operator.openshift.io
+  name: zerotrustworkloadidentitymanagers.operator.openshift.io
 spec:
-  group: operator.openshift.io.operator.openshift.io
+  group: operator.openshift.io
   names:
     kind: ZeroTrustWorkloadIdentityManager
     listKind: ZeroTrustWorkloadIdentityManagerList

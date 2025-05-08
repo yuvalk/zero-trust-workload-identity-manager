@@ -1,0 +1,51 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Basic Install
+  name: zero-trust-workload-identity-manager.v0.0.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions: {}
+  description: The Zero Trust Workload Identity Manager is a Openshift Day-2 Operator
+    designed to automate the setup and management of SPIFFE/SPIRE components (like
+    spire-server, spire-agent, spiffe-csi-driver, and oidc-discovery-provider) within
+    OpenShift clusters. It enables zero-trust security by dynamically issuing and
+    rotating workload identities, enforcing strict identity-based authentication across
+    workloads. This manager abstracts complex SPIRE configurations, streamlining workload
+    onboarding with secure identities and improving the cluster's overall security
+    posture.
+  displayName: Zero Trust Workload Identity Manager
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      deployments: null
+    strategy: ""
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - ztwim
+  links:
+  - name: Zero Trust Workload Identity Manager
+    url: https://zero-trust-workload-identity-manager.domain
+  maintainers:
+  - email: aagnihot@redhat.com
+    name: Anirudh Agnihotri
+  - email: tgeer@redhat.com
+    name: Trilok Geer
+  maturity: alpha
+  provider:
+    name: zero-trust-workload-identity-manager
+    url: https://github.com/openshift/zero-trust-workload-identity-manager
+  version: 0.0.0

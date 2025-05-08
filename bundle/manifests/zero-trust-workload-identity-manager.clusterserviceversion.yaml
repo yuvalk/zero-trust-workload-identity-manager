@@ -1,0 +1,169 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: |-
+      [
+        {
+          "apiVersion": "operator.openshift.io/v1alpha1",
+          "kind": "ZeroTrustWorkloadIdentityManager",
+          "metadata": {
+            "labels": {
+              "app.kubernetes.io/created-by": "zero-trust-workload-identity-manager",
+              "app.kubernetes.io/managed-by": "kustomize",
+              "app.kubernetes.io/name": "zero-trust-workload-identity-manager",
+              "app.kubernetes.io/part-of": "zero-trust-workload-identity-manager"
+            },
+            "name": "zerotrustworkloadidentitymanager-sample"
+          },
+          "spec": null
+        }
+      ]
+    capabilities: Basic Install
+    createdAt: "2025-05-08T10:54:04Z"
+    operators.operatorframework.io/builder: operator-sdk-v1.39.0
+    operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+  name: zero-trust-workload-identity-manager.v0.1.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - kind: ZeroTrustWorkloadIdentityManager
+      name: zerotrustworkloadidentitymanagers.operator.openshift.io
+      version: v1alpha1
+  description: The Zero Trust Workload Identity Manager is a Openshift Day-2 Operator
+    designed to automate the setup and management of SPIFFE/SPIRE components (like
+    spire-server, spire-agent, spiffe-csi-driver, and oidc-discovery-provider) within
+    OpenShift clusters. It enables zero-trust security by dynamically issuing and
+    rotating workload identities, enforcing strict identity-based authentication across
+    workloads. This manager abstracts complex SPIRE configurations, streamlining workload
+    onboarding with secure identities and improving the cluster's overall security
+    posture.
+  displayName: Zero Trust Workload Identity Manager
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - operator.openshift.io
+          resources:
+          - zerotrustworkloadidentitymanagers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - operator.openshift.io
+          resources:
+          - zerotrustworkloadidentitymanagers/finalizers
+          verbs:
+          - update
+        - apiGroups:
+          - operator.openshift.io
+          resources:
+          - zerotrustworkloadidentitymanagers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - authentication.k8s.io
+          resources:
+          - tokenreviews
+          verbs:
+          - create
+        - apiGroups:
+          - authorization.k8s.io
+          resources:
+          - subjectaccessreviews
+          verbs:
+          - create
+        serviceAccountName: zero-trust-workload-identity-manager-controller-manager
+      deployments:
+      - label:
+          app.kubernetes.io/managed-by: kustomize
+          app.kubernetes.io/name: zero-trust-workload-identity-manager
+          control-plane: controller-manager
+        name: zero-trust-workload-identity-manager-controller-manager
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              control-plane: controller-manager
+          strategy: {}
+          template:
+            metadata:
+              annotations:
+                kubectl.kubernetes.io/default-container: manager
+              labels:
+                control-plane: controller-manager
+            spec:
+              containers:
+              - args:
+                - --metrics-bind-address=:8443
+                - --health-probe-bind-address=:8081
+                command:
+                - /zero-trust-workload-identity-manager
+                image: controller:latest
+                livenessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: 8081
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                name: manager
+                readinessProbe:
+                  httpGet:
+                    path: /readyz
+                    port: 8081
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 128Mi
+                  requests:
+                    cpu: 10m
+                    memory: 64Mi
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop:
+                    - ALL
+              securityContext:
+                runAsNonRoot: true
+              serviceAccountName: zero-trust-workload-identity-manager-controller-manager
+              terminationGracePeriodSeconds: 10
+    strategy: deployment
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - ztwim
+  links:
+  - name: Zero Trust Workload Identity Manager
+    url: https://zero-trust-workload-identity-manager.domain
+  maintainers:
+  - email: aagnihot@redhat.com
+    name: Anirudh Agnihotri
+  - email: tgeer@redhat.com
+    name: Trilok Geer
+  maturity: alpha
+  provider:
+    name: zero-trust-workload-identity-manager
+    url: https://github.com/openshift/zero-trust-workload-identity-manager
+  version: 0.1.0
