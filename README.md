@@ -1,4 +1,4 @@
-# zero-trust-workload-identity-manager
+# Zero Trust Workload Identity Manager
 The Zero Trust Workload Identity Manager is a Openshift Day-2 Operator designed to automate the setup and management of SPIFFE/SPIRE components (like `spire-server`, `spire-agent`, `spiffe-csi-driver`, and `oidc-discovery-provider`) within OpenShift clusters. It enables zero-trust security by dynamically issuing and rotating workload identities, enforcing strict identity-based authentication across workloads. This manager abstracts complex SPIRE configurations, streamlining workload onboarding with secure identities and improving the cluster's overall security posture.
 
 ## Description
