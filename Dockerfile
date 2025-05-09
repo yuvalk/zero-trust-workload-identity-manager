@@ -1,4 +1,4 @@
-# Build the manager binary
+# Build the Zero Trust Workload Identity Manager binary
 FROM registry.ci.openshift.org/ocp/builder:rhel-9-golang-1.23-openshift-4.19 AS builder
 ARG TARGETOS
 ARG TARGETARCH
@@ -12,9 +12,9 @@ COPY go.sum go.sum
 RUN go mod download
 
 # Copy the go source
-COPY cmd/main.go cmd/main.go
+COPY cmd/zero-trust-workload-identity-manager/main.go cmd/zero-trust-workload-identity-manager/main.go
 COPY api/ api/
-COPY internal/controller/ internal/controller/
+COPY pkg/controller/ pkg/controller/
 
 # Build
 # the GOARCH has not a default value to allow the binary be built according to the host where the command
@@ -27,7 +27,7 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -mod=mod
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM registry.access.redhat.com/ubi9-minimal:9.4
 WORKDIR /
-COPY --from=builder /workspace/manager .
+COPY --from=builder /workspace/zero-trust-workload-identity-manager .
 USER 65532:65532
 
-ENTRYPOINT ["/manager"]
+ENTRYPOINT ["/zero-trust-workload-identity-manager"]

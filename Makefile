@@ -1,4 +1,3 @@
-include vendor/github.com/openshift/build-machinery-go/make/operator.mk
 # VERSION defines the project version for the bundle.
 # Update this value when you upgrade the version of your project.
 # To re-generate a bundle for another specific version without changing the standard setup, you can:
@@ -73,8 +72,16 @@ CONTAINER_TOOL ?= docker
 SHELL = /usr/bin/env bash -o pipefail
 .SHELLFLAGS = -ec
 
+COMMIT ?= $(shell git rev-parse HEAD)
+SHORTCOMMIT ?= $(shell git rev-parse --short HEAD)
+GOBUILD_VERSION_ARGS = -ldflags "-X $(PACKAGE)/pkg/version.SHORTCOMMIT=$(SHORTCOMMIT) -X $(PACKAGE)/pkg/version.COMMIT=$(COMMIT)"
+
+include $(addprefix ./vendor/github.com/openshift/build-machinery-go/make/, \
+    targets/openshift/bindata.mk \
+)
+
 .PHONY: all
-all: build
+all: build verify
 
 ##@ General
 
@@ -129,14 +136,17 @@ lint-fix: golangci-lint ## Run golangci-lint linter and perform fixes
 	$(GOLANGCI_LINT) run --fix
 
 ##@ Build
+.PHONY: build-operator
+build-operator: ## Build operator binary, no additional checks or code generation
+	@GOFLAGS="-mod=vendor" source hack/go-fips.sh && \
+	go build $(GOBUILD_VERSION_ARGS) -o $(LOCALBIN)/zero-trust-workload-identity-manager cmd/zero-trust-workload-identity-manager/main.go
 
 .PHONY: build
-build: manifests generate fmt vet ## Build manager binary.
-	go build -o bin/manager cmd/main.go
+build: manifests generate fmt vet build-operator
 
 .PHONY: run
 run: manifests generate fmt vet ## Run a controller from your host.
-	go run ./cmd/main.go
+	go run ./cmd/zero-trust-workload-identity-manager/main.go
 
 # If you wish to build the manager image targeting other platforms you can use the --platform flag.
 # (i.e. docker build --platform linux/arm64). However, you must enable docker buildKit for it.
@@ -323,3 +333,7 @@ catalog-build: opm ## Build a catalog image.
 .PHONY: catalog-push
 catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
+
+## verify the changes are working as expected.
+.PHONY: verify
+verify: vet fmt golangci-lint

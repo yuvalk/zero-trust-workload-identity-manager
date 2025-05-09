@@ -3,6 +3,8 @@ kind: ClusterRoleBinding
 metadata:
   labels:
     app.kubernetes.io/name: zero-trust-workload-identity-manager
+    app.kubernetes.io/created-by: zero-trust-workload-identity-manager
+    app.kubernetes.io/part-of: zero-trust-workload-identity-manager
     app.kubernetes.io/managed-by: kustomize
   name: manager-rolebinding
 roleRef:

@@ -4,11 +4,13 @@ kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/name: zero-trust-workload-identity-manager
+    app.kubernetes.io/created-by: zero-trust-workload-identity-manager
+    app.kubernetes.io/part-of: zero-trust-workload-identity-manager
     app.kubernetes.io/managed-by: kustomize
   name: zerotrustworkloadidentitymanager-viewer-role
 rules:
 - apiGroups:
-  - operator.openshift.io.operator.openshift.io
+  - operator.openshift.io
   resources:
   - zerotrustworkloadidentitymanagers
   verbs:
@@ -16,7 +18,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - operator.openshift.io.operator.openshift.io
+  - operator.openshift.io
   resources:
   - zerotrustworkloadidentitymanagers/status
   verbs:

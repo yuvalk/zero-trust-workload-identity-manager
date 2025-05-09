@@ -18,6 +18,8 @@ package controller
 
 import (
 	"context"
+	"k8s.io/apimachinery/pkg/runtime"
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -30,15 +32,24 @@ import (
 	operatoropenshiftiov1alpha1 "github.com/openshift/zero-trust-workload-identity-manager/api/v1alpha1"
 )
 
+var (
+	Scheme = runtime.NewScheme()
+)
+
+func init() {
+	utilruntime.Must(operatoropenshiftiov1alpha1.AddToScheme(Scheme))
+}
+
 var _ = Describe("ZeroTrustWorkloadIdentityManager Controller", func() {
 	Context("When reconciling a resource", func() {
-		const resourceName = "test-resource"
+		const resourceName = "cluster"
+		const resourceNamespace = "zero-trust-workload-identity-manager"
 
 		ctx := context.Background()
 
 		typeNamespacedName := types.NamespacedName{
 			Name:      resourceName,
-			Namespace: "default", // TODO(user):Modify as needed
+			Namespace: resourceNamespace,
 		}
 		zerotrustworkloadidentitymanager := &operatoropenshiftiov1alpha1.ZeroTrustWorkloadIdentityManager{}
 
@@ -49,7 +60,7 @@ var _ = Describe("ZeroTrustWorkloadIdentityManager Controller", func() {
 				resource := &operatoropenshiftiov1alpha1.ZeroTrustWorkloadIdentityManager{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      resourceName,
-						Namespace: "default",
+						Namespace: resourceNamespace,
 					},
 					// TODO(user): Specify other spec details if needed.
 				}
